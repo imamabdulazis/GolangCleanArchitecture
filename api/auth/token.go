@@ -22,7 +22,7 @@ func GenerateJWT(user models.User) (string, error) {
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claim)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
 	return token.SignedString(config.SECRETKEY)
 }
 

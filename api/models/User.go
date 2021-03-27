@@ -4,23 +4,28 @@ import (
 	"errors"
 	"html"
 	"strings"
+	"time"
 	"tugasakhircoffe/TaCoffe/api/security"
 
 	"github.com/badoux/checkmail"
-	"github.com/jinzhu/gorm"
+	"github.com/google/uuid"
+	_ "github.com/jinzhu/gorm"
 )
 
 //User models
 type User struct {
-	gorm.Model
-	Username   string
-	Email      string
-	Name       string
-	Password   string
-	ImageUrl   string
-	TelpNumber string
-	Role       int
-	Address    string
+	ID         uuid.UUID  `gorm:"primary_key; unique; type:uuid;column:id;default:uuid_generate_v4()" json:"id"`
+	Username   string     `json:"username"`
+	Email      string     `json:"email"`
+	Name       string     `json:"name"`
+	Password   string     `json:"password"`
+	ImageUrl   string     `json:"image_url"`
+	TelpNumber string     `json:"telp_number"`
+	Role       int        `json:"role"`
+	Address    string     `json:"address"`
+	CreatedAt  time.Time  `json:"-"`
+	UpdatedAt  time.Time  `json:"-"`
+	DeletedAt  *time.Time `sql:"index" json:"-"`
 }
 
 // BeforeSave hash the user password
@@ -35,7 +40,6 @@ func (u *User) BeforeSave() error {
 
 // Prepare cleans the inputs
 func (u *User) Prepare() {
-	u.ID = 0
 	u.Username = html.EscapeString(strings.TrimSpace(u.Username))
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
 }
