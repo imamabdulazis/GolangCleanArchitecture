@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"tugasakhircoffe/TaCoffe/api"
 )
 
 func main() {
-	fmt.Println("Helloo")
+	api.Run()
 }
