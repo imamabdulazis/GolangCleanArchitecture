@@ -2,6 +2,7 @@ package routes
 
 import (
 	"net/http"
+	"tugasakhircoffe/TaCoffe/api/middlewares"
 
 	"github.com/gorilla/mux"
 )
@@ -17,6 +18,7 @@ type Route struct {
 //Load the routes
 func Load() []Route {
 	routes := userRoutes
+	routes = append(routes, authRoutes...)
 	return routes
 }
 

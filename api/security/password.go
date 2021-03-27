@@ -5,7 +5,7 @@ import (
 )
 
 //Hash make a password hash
-func Main(password string) ([]byte, error) {
+func Hash(password string) ([]byte, error) {
 	return bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 }
 

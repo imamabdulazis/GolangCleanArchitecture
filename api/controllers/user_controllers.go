@@ -1,4 +1,4 @@
-package controller
+package controllers
 
 import (
 	"net/http"
@@ -21,10 +21,11 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	func(userRepository repository.UserRepository) {
 		users, err := userRepository.FindAll()
+		println(err)
 		if err != nil {
 			responses.ERROR(w, http.StatusUnprocessableEntity, err)
 			return
 		}
-		responses.JSON(w, http.StatusOK, "ok", users)
+		responses.JSON(w, http.StatusOK, "Ok", users)
 	}(repo)
 }

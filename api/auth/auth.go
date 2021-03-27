@@ -9,8 +9,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// SignIn method
-func SignIn(email, password string) (string, error) {
+// Login method
+func Login(username, password string) (string, error) {
 	user := models.User{}
 	var err error
 	var db *gorm.DB
@@ -25,7 +25,7 @@ func SignIn(email, password string) (string, error) {
 		}
 		defer db.Close()
 
-		err = db.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
+		err = db.Debug().Model(models.User{}).Where("username = ?", username).Take(&user).Error
 		if err != nil {
 			ch <- false
 			return

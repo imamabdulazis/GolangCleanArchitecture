@@ -19,6 +19,12 @@ type ResponseHandler struct {
 	Data    interface{} `json:"data"`
 }
 
+//response struct
+type ResponseHandlerError struct {
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+}
+
 //JSON AUTH displays 1 a json response message with data
 func AUTH_JSON(w http.ResponseWriter, statusCode int, message string, token string) {
 	w.WriteHeader(statusCode)
@@ -47,12 +53,25 @@ func JSON(w http.ResponseWriter, statusCode int, message string, data interface{
 	}
 }
 
+// JSON displays a json response message with data
+func JSON_ERROR(w http.ResponseWriter, statusCode int, message string) {
+	w.WriteHeader(statusCode)
+	var value = ResponseHandlerError{
+		Status:  statusCode,
+		Message: message,
+	}
+	err := json.NewEncoder(w).Encode(value)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
+}
+
 func ERROR(w http.ResponseWriter, statusCode int, err error) {
 	if err != nil {
 		if statusCode == 401 {
-			JSON(w, statusCode, err.Error(), nil)
+			JSON_ERROR(w, http.StatusBadRequest, err.Error())
 		}
 		return
 	}
-	JSON(w, http.StatusBadRequest, "Bad Request", nil)
+	JSON_ERROR(w, http.StatusBadRequest, "Bad Request")
 }

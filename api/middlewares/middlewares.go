@@ -1,8 +1,12 @@
 package middlewares
 
 import (
+	"context"
 	"log"
 	"net/http"
+	"tugasakhircoffe/TaCoffe/api/auth"
+	"tugasakhircoffe/TaCoffe/api/models"
+	"tugasakhircoffe/TaCoffe/api/utils/types"
 )
 
 type TokenRequired struct {
@@ -27,19 +31,19 @@ func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
 }
 
 // SetMiddlewareAuthentication authorize an access
-// func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
-// 	return func(w http.ResponseWriter, r *http.Request) {
-// 		token := auth.ExtractToken(w, r)
-// 		if token == nil {
-// 			return
-// 		}
-// 		if token.Valid {
-// 			ctx := context.WithValue(
-// 				r.Context(),
-// 				types.UserKey("user"),
-// 				token.Claims.(*models.Claim).User,
-// 			)
-// 			next(w, r.WithContext(ctx))
-// 		}
-// 	}
-// }
+func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		token := auth.ExtractToken(w, r)
+		if token == nil {
+			return
+		}
+		if token.Valid {
+			ctx := context.WithValue(
+				r.Context(),
+				types.UserKey("user"),
+				token.Claims.(*models.Claim).User,
+			)
+			next(w, r.WithContext(ctx))
+		}
+	}
+}
