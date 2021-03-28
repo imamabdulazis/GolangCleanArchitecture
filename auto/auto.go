@@ -1,9 +1,14 @@
 package auto
 
-import "tugasakhircoffe/TaCoffe/api/models"
+import (
+	"tugasakhircoffe/TaCoffe/api/models"
+
+	"github.com/google/uuid"
+)
 
 var users = []models.User{
 	models.User{
+		ID:         uuid.UUID{},
 		Username:   "sample",
 		Email:      "sample@gmail.com",
 		Name:       "sample",

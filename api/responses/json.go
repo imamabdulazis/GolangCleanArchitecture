@@ -66,13 +66,16 @@ func JSON_ERROR(w http.ResponseWriter, statusCode int, message string) {
 	}
 }
 
+//JSON displays error
 func ERROR(w http.ResponseWriter, statusCode int, err error) {
 	if err != nil {
-		if statusCode == 400 {
+		if err.Error() == "EOF" {
+			JSON_ERROR(w, http.StatusBadRequest, "Terjadi kesalahan, mohon coba kembali")
+			return
+		} else {
 			JSON_ERROR(w, http.StatusBadRequest, err.Error())
+			return
 		}
-		JSON_ERROR(w, http.StatusUnauthorized, err.Error())
-		return
 	}
 	JSON_ERROR(w, http.StatusBadRequest, "Terjadi kesalahan, mohon coba kembali")
 }

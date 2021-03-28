@@ -18,13 +18,13 @@ type User struct {
 	Username   string     `json:"username"`
 	Email      string     `json:"email"`
 	Name       string     `json:"name"`
-	Password   string     `json:"password"`
+	Password   string     `json:"password,omitempty"`
 	ImageUrl   string     `json:"image_url"`
 	TelpNumber string     `json:"telp_number"`
 	Role       int        `json:"role"`
 	Address    string     `json:"address"`
-	CreatedAt  time.Time  `json:"-"`
-	UpdatedAt  time.Time  `json:"-"`
+	CreatedAt  time.Time  `json:"created_at"`
+	UpdatedAt  time.Time  `json:"updated_at"`
 	DeletedAt  *time.Time `sql:"index" json:"-"`
 }
 

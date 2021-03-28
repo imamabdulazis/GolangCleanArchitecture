@@ -25,7 +25,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	token, err := auth.Login(user.Username, user.Password)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, err)
+		if err.Error() == "record not found" {
+			responses.JSON_ERROR(w, http.StatusUnauthorized, "Username belum terdaftar")
+			return
+		}
+		responses.JSON_ERROR(w, http.StatusUnauthorized, "Password anda tidak valid")
 		return
 	}
 	responses.AUTH_JSON(w, http.StatusOK, "Ok", token)
