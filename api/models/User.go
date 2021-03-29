@@ -5,11 +5,13 @@ import (
 	"html"
 	"strings"
 	"time"
+
 	"tugasakhircoffe/TaCoffe/api/security"
 
 	"github.com/badoux/checkmail"
-	"github.com/google/uuid"
+
 	_ "github.com/jinzhu/gorm"
+	uuid "github.com/satori/go.uuid"
 )
 
 //User models
@@ -21,7 +23,7 @@ type User struct {
 	Password   string     `json:"password,omitempty"`
 	ImageUrl   string     `json:"image_url"`
 	TelpNumber string     `json:"telp_number"`
-	Role       int        `json:"role"`
+	Role       string     `json:"role"`
 	Address    string     `json:"address"`
 	CreatedAt  time.Time  `json:"created_at"`
 	UpdatedAt  time.Time  `json:"updated_at"`
@@ -65,6 +67,14 @@ func (u *User) Validate(action string) error {
 
 		if u.Email == "" {
 			return errors.New("Email is required")
+		}
+
+		if u.Name == "" {
+			return errors.New("Name is required")
+		}
+
+		if u.Role == "" {
+			return errors.New("Role is requred")
 		}
 
 		if err := checkmail.ValidateFormat(u.Email); err != nil {

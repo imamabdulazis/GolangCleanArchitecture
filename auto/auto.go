@@ -15,7 +15,7 @@ var users = []models.User{
 		Password:   "12345",
 		ImageUrl:   "url",
 		TelpNumber: "081",
-		Role:       1,
+		Role:       "user",
 		Address:    "sample_address",
 	},
 }

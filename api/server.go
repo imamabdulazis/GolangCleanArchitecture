@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
 	"tugasakhircoffe/TaCoffe/api/router"
-	"tugasakhircoffe/TaCoffe/auto"
 	"tugasakhircoffe/TaCoffe/config"
 )
 
 func Init() {
 	config.Load()
-	auto.Load()
+	// auto.Load()
 }
 
 //Run message

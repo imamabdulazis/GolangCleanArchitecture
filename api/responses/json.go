@@ -20,7 +20,7 @@ type ResponseHandler struct {
 }
 
 //response struct
-type ResponseHandlerError struct {
+type ResponseHandlerMessage struct {
 	Status  int    `json:"status"`
 	Message string `json:"message"`
 }
@@ -54,9 +54,22 @@ func JSON(w http.ResponseWriter, statusCode int, message string, data interface{
 }
 
 // JSON displays a json response message with data
+func JSON_SUCCESS(w http.ResponseWriter, statusCode int, message string) {
+	w.WriteHeader(statusCode)
+	var value = ResponseHandlerMessage{
+		Status:  statusCode,
+		Message: message,
+	}
+	err := json.NewEncoder(w).Encode(value)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
+}
+
+// JSON displays a json response message with data
 func JSON_ERROR(w http.ResponseWriter, statusCode int, message string) {
 	w.WriteHeader(statusCode)
-	var value = ResponseHandlerError{
+	var value = ResponseHandlerMessage{
 		Status:  statusCode,
 		Message: message,
 	}
@@ -71,6 +84,9 @@ func ERROR(w http.ResponseWriter, statusCode int, err error) {
 	if err != nil {
 		if err.Error() == "EOF" {
 			JSON_ERROR(w, http.StatusBadRequest, "Terjadi kesalahan, mohon coba kembali")
+			return
+		} else if err.Error() == "token contains an invalid number of segments" {
+			JSON_ERROR(w, http.StatusUnauthorized, "Token is Invalid")
 			return
 		} else {
 			JSON_ERROR(w, http.StatusBadRequest, err.Error())

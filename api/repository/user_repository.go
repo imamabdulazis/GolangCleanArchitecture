@@ -1,11 +1,15 @@
 package repository
 
-import "tugasakhircoffe/TaCoffe/api/models"
+import (
+	"tugasakhircoffe/TaCoffe/api/models"
+
+	uuid "github.com/satori/go.uuid"
+)
 
 type UserRepository interface {
 	Save(models.User) (models.User, error)
 	FindAll() ([]models.User, error)
-	// 	FindByID(uint32, models.User) (int64, error)
-	// 	Update(uint32, models.User) (int64, error)
-	// 	Delete(uint32) int64
+	FindByID(uuid.UUID) (models.User, error)
+	Update(uuid.UUID, models.User) (int64, error)
+	Delete(uuid.UUID) (int64, error)
 }
