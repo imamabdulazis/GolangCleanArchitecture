@@ -1,2 +1,2 @@
 # GolangAPICoffeShop
-This project is provided to make rest api CoffeShop Apps with libary mux, postgresql, and many other.
+This project is provided to make rest api CoffeShop Apps with library mux, postgresql, and many other.
